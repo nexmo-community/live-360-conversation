@@ -9,4 +9,5 @@ export const config ={
     applicationId: process.env.VONAGE_APP_ID,
     privateKey: `${__dirname}/../data/private.key`,
 };
+
 export const vonage = new Vonage(config) as any;

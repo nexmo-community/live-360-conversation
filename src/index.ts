@@ -7,12 +7,9 @@ import { register } from './routes/index.js';
 import livereload from 'livereload';
 import connectLiveReload from 'connect-livereload';
 import { logger, loggerConfig } from './logger';
+import bodyParser = require('body-parser');
 
 dotenv.config();
-
-export const USER_FILE = path.normalize(
-    path.join(__dirname, '../', 'data', 'users.json'),
-);
 
 const liveReloadServer = livereload.createServer();
 liveReloadServer.server.once('connection', () => {
@@ -35,6 +32,10 @@ app.use(expressLayouts);
 app.set('layout', 'layouts/layout');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// Set up other middlewares
+
+app.use(bodyParser.json());
 
 register(app);
 
