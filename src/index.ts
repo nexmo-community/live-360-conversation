@@ -1,18 +1,23 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
+import expressWinston from 'express-winston';
 import expressLayouts from 'express-ejs-layouts';
 import { register } from './routes/index.js';
 import livereload from 'livereload';
 import connectLiveReload from 'connect-livereload';
+import { logger, loggerConfig } from './logger';
 
 dotenv.config();
 
+export const USER_FILE = path.normalize(
+    path.join(__dirname, '../', 'data', 'users.json'),
+);
 
 const liveReloadServer = livereload.createServer();
 liveReloadServer.server.once('connection', () => {
     setTimeout(() => {
-        console.debug('Refreshing page');
+        logger.debug('Refreshing page');
         liveReloadServer.refresh('/');
     }, 100);
 });
@@ -21,6 +26,7 @@ const app: Express = express();
 const port: number = parseInt(process.env.PORT ?? '8080');
 
 // Set up logger
+app.use(expressWinston.logger(loggerConfig));
 app.use(connectLiveReload());
 
 // Set up views
