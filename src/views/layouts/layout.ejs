@@ -4,7 +4,15 @@
     <%- include('../partials/head') %>
 </head>
 
-<body>
-    <%- include('../main') %>
+<body class="">
+    <%- include('../partials/header') %>
+    <div class="container-fluid">
+        <div class="row">
+            <%- include('../partials/nav') %> 
+            <%- include('../main') %>
+        </div>
+    </div>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

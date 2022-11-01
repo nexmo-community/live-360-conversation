@@ -32,6 +32,9 @@ app.use(expressLayouts);
 app.set('layout', 'layouts/layout');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(
+    express.static(path.normalize(path.join(__dirname, '../', 'public'))),
+);
 
 // Set up other middlewares
 
