@@ -4,9 +4,10 @@ import { writeFileSync, readFileSync, existsSync } from 'fs';
 import _ from 'lodash';
 import { vonage } from '../src/vonage';
 import { logger } from '../src/logger';
+import dotenv from 'dotenv';
 import { Conversation, User, Member, USER_FILE } from '../src/types';
 
-
+dotenv.config();
 const createVonageUser = (
     name: string,
 ): Promise<Conversation> => new Promise((resolve, reject) => {
@@ -18,6 +19,7 @@ const createVonageUser = (
         },
         (err: Error, conversation: Conversation) => {
             if (err) {
+                console.error(err);
                 reject(err);
                 return;
             }
@@ -43,6 +45,7 @@ const createVonageMembership = (
         },
         (err: Error, member: Member) => {
             if (err) {
+                console.error(err);
                 reject(err);
                 return;
             }

@@ -1,2 +1,58 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<main class="form-signin w-100 m-auto">
+    <img class="mb-4" src="img/vonage.svg" alt="A styleized black V with the word Vonage to the right of it " width="200"> 
+
+    <div id="liveAlertPlaceholder"></div>
+
+    <form id="loginForm">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+        <div class="form-floating">
+            <input type="text" name="user" class="form-control" id="floatingInput" placeholder="Username">
+            <label for="floatingInput">Username</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    </form>
+
+    <button type="button" id="markAll" class="btn btn-link">
+        Mark All read
+    </button>
+
+    <div id="notificationList">
+
+    </div>
 </main>
+
+<template id="notificationToast">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-check-lg text-success"></i>
+            <strong class="notice-title me-auto"></strong>
+            <small class="notification-date">11 mins ago</small>
+        </div>
+
+        <div class="toast-body">
+            <span class="notification-message">
+                Hello, world! This is a toast message.
+            </span>
+            <div class="mt-2 pt-2 border-top">
+                <button type="button" class="mark-as-read btn btn-primary btn-sm" aria-label="Mark as read">
+                    Mark as Read
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <br>
+</template>

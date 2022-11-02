@@ -18,16 +18,16 @@ export const getConversationEvents = (converstionId: string) =>
             {
                 // eslint-disable-next-line max-len
                 event_type: 'custom:notice,event:delete,custom:read,custom:read-all',
-                page_size: 1000,
+                page_size: 100,
             },
             (error: Error, result: any) => {
                 if (error) {
+                    logger.error('error', error);
                     reject(error);
                     return;
                 }
 
                 const events = _.get(result, '_embedded.data.events', []);
-                console.info('Got events', events);
                 resolve(events);
             },
         );
