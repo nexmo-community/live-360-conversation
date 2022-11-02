@@ -7,6 +7,7 @@ import {
     CustomReadBody,
     NotificationBody,
     User,
+    Notification,
 } from './types';
 
 export const getConversationEvents = (converstionId: string) =>
@@ -106,4 +107,53 @@ export const processEvents = (
         )),
         ['priority', 'timestamp'],
     );
+};
+
+const createEvent = (
+    event: any,
+): Promise<VonageEvent> => new Promise((resolve, reject) => {
+    vonage.conversations.event.create(
+        event,
+        (err: any, result: any) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            result(result);
+        },
+    );
+});
+
+export const markAsRead = async (
+    notificationId: string,
+    user: User,
+): Promise<boolean> => {
+    try {
+        await createEvent({
+            type: 'custom:read',
+            from: user.vonage_user_id,
+            body: {
+                event_id: notificationId,
+            },
+        });
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
+
+export const markAllRead = async (
+    user: User,
+): Promise<boolean> => {
+    try {
+        await createEvent({
+            type: 'custom:read-all',
+            from: user.vonage_user_id,
+            body: {
+            },
+        });
+        return true;
+    } catch (error) {
+        return false;
+    }
 };

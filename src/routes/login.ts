@@ -53,7 +53,7 @@ export const loginRoute = (req: Request, res: Response) => {
     const token = jwt.sign(
         _.omit(foundUser, ['pass']),
         process.env.JWT_SECRET,
-        { expiresIn: '1h' },
+        { expiresIn: '5h' },
     );
     res.json({
         token: token,

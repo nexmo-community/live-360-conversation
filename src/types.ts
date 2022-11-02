@@ -37,7 +37,7 @@ export interface DeletedEventBody {
 }
 
 export interface Notification {
-    notificat_id: number,
+    notification_id: number,
     message: string,
     read: boolean,
     priority: number
