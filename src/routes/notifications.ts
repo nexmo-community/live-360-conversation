@@ -7,9 +7,16 @@ import {
     markAsRead,
     processEvents } from '../notices';
 import _ from 'lodash';
+import { logger } from '../logger';
 
 const getUserFromRequest = (req: Request): User => {
     const token = `${req?.headers?.authorization}`.replace('Bearer ', '');
+    logger.debug(`Header ${req?.headers?.authorization}`);
+    logger.debug(`Token ${token}`);
+    if (!token) {
+        throw new Error('Invalid Token');
+    }
+
     return _.pick(
         jwt.verify(
             token,

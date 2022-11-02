@@ -1,18 +1,86 @@
-const fetchNotifications = async () => {
+const getToken = () => localStorage.getItem('token');
+
+const isLoggedIn = () => !!getToken();
+
+const fetchNotifications = async (element) => {
     fetch(
         '/notifications',
+        {
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+            },
+        },
     )
         .then((res) => res.text())
         .then(JSON.parse)
         .then((notices) => {
-            console.log(notices);
+            buildNotifation(element, notices);
         });
 };
 
-const pollNotifications = () => {
+const markAsRead = async (element, id) => {
+    console.log(`Marking as read ${id}`);
+    fetch(
+        '/notifications',
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                event_id: id,
+            }),
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+            },
+        },
+    )
+        .then(fetchNotifications(element));
+};
+
+const buildNotifation = (element, notices) => {
+    element.replaceChildren();
+    if (notices.length > 0) {
+        const markAllElement = document.createElement('li');
+        const markLink = document.createElement('a');
+        markLink.innerHTML = 'mark all read';
+        markLink.setAttribute('href', '#');
+
+        markLink.addEventListener('click', (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            markAsRead(element, '__all');
+        });
+        markAllElement.appendChild(markLink);
+        element.appendChild(markAllElement);
+    }
+    notices.forEach((notice) => {
+        const noticeElement = document.createElement('li');
+        if (notice.icon) {
+            const iconElement = document.createElement('i');
+            iconElement.className = `bi ${notice.icon}`;
+            noticeElement.appendChild(iconElement);
+        }
+        const messageElement = document.createElement('a');
+        if (!notice.read) {
+            messageElement.setAttribute('href', '#');
+            messageElement.addEventListener('click', (event) => {
+                event.stopPropagation();
+                event.preventDefault();
+                markAsRead(element, notice.notification_id);
+            });
+        }
+        messageElement.innerText = notice.message;
+        if (notice.read) {
+            messageElement.style.textDecoration = 'line-through';
+        }
+
+        noticeElement.appendChild(messageElement);
+        element.appendChild(noticeElement);
+    });
+};
+
+const pollNotifications = (element) => {
     setInterval(() => {
-        fetchNotifications();
-    }, 1000);
+        fetchNotifications(element);
+    }, 5000);
 };
 
 addEventListener('DOMContentLoaded', () => {
@@ -20,10 +88,8 @@ addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const nav = document.getElementById('navigation');
     const signOut = document.getElementById('signOut');
+    const notificationList = document.getElementById('notificationList');
 
-    const getToken = () => localStorage.getItem('token');
-
-    const isLoggedIn = () => !!getToken();
 
     signOut.addEventListener('click', (event) => {
         event.stopPropagation();
@@ -54,7 +120,8 @@ addEventListener('DOMContentLoaded', () => {
         nav.style.display = 'block';
         loginForm.style.display = 'none';
         signOut.style.display = 'block';
-        pollNotifications();
+        pollNotifications(notificationList);
+        fetchNotifications(notificationList);
     };
 
     const setupLogin = () => {

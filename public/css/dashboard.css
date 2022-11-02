@@ -90,3 +90,29 @@ body {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
+
+#notificationList {
+  position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+    z-index: 1;
+    right: 50px;
+    padding: 0;
+}
+
+#notificationList > li {
+  border-bottom: solid 1px black;
+  list-style: none;
+  padding: 5px;
+}
+
+#notificationList > li > a {
+  margin-left: 3px;
+  text-decoration: none;
+  text-color: black;
+}
+
+#notificationList > li:last-child {
+  border: none;
+}
