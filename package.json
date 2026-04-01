@@ -29,7 +29,7 @@
     "express-winston": "4.2.0",
     "jsonwebtoken": "8.5.1",
     "livereload": "0.9.3",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "winston": "3.8.2",
     "yargs": "17.6.0"
   },
