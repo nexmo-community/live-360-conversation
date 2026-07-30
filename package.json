@@ -28,7 +28,7 @@
     "express-ejs-layouts": "2.5.1",
     "express-winston": "4.2.0",
     "jsonwebtoken": "8.5.1",
-    "livereload": "0.9.3",
+    "livereload": "0.10.0",
     "lodash": "4.17.21",
     "winston": "3.8.2",
     "yargs": "17.6.0"
